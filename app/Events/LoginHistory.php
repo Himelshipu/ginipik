@@ -21,7 +21,7 @@ class LoginHistory
      */
     public function __construct($user)
     {
-      $this->user =$user;
+      $this->user = $user;
     }
 
     /**

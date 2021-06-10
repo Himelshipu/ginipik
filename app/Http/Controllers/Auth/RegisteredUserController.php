@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Gmail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -39,14 +41,31 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+
+
+
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        $email = $request['email'];
+        $details = [
+            'title'=>'Thank You For Signing in',
+            'body' => "You Are Successfully Registered to GINIPIK.<br>
+            your Username is: $request->name <br>
+            your Email is: $request->email <br>
+            your Password is: $request->password. <br>
+            you Registered at : $user->created_at. <br>
+            "
+        ];
 
+        Mail::to($email)->send(new Gmail($details));
+
+
+        event(new Registered($user));
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
