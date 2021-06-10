@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailJob;
 use App\Mail\Gmail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -62,6 +63,7 @@ class RegisteredUserController extends Controller
             "
         ];
 
+        SendEmailJob::dispatch($user)->delay(now()->addMinutes(2));
         Mail::to($email)->send(new Gmail($details));
 
 
