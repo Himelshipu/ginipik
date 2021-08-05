@@ -11,7 +11,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.3"
+        "laravel/ui": "^3.3",
+        "laravelium/sitemap": "^8.0",
+        "spatie/laravel-sitemap": "5.8.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
